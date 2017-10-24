@@ -1,0 +1,54 @@
+{% extends 'master_manga.html' %}
+
+{% block title %}
+Manga web-scan
+{% endblock %}
+{% block page_content %}
+	<center>
+		<div class="main_cont">
+			<div class="row">
+				{%for manga in mangas %}
+				<div class="element">
+					<div><h3>{{manga.full_name}}</h3></div>
+					<div class="row">
+						<div class="element_ligth">
+						<img src="{{url_for('static', filename='img/locandine/'+manga.locandina)}}" height="150px"/>
+						</div>
+						<div class="element_ligth">
+						<p>Numero cap: {{manga.capitoli | length}}</p>
+						<p>Ultimi capitoli:</p>
+							{%if  manga.capitoli %}
+							<ul>
+							{%for capit in manga.capitoli | reverse | batch(5) | first %}
+								
+								<li><a href="{{url_for('db_views', manga_tag=manga.nome, cap= (manga.capitoli|length)-loop.index )}}">
+								{%if capit.volume%}
+									v{{capit.volume}}
+								{%endif%}
+								c{{capit.numero}}{%if capit.sub_num%}.{{capit.sub_num}}{%endif%}
+								</a></li>
+							{%endfor%}
+							</ul>
+							{%else%}<p><center>None</center></p>{%endif%}
+						</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="element_ligth"><a href="{{url_for('db_views', manga_tag=manga.nome, cap=0)}}" title="Vai al primo capitolo">Leggi</a></div>
+						{%if current_user.is_authenticated %}
+						<div class="element_ligth"><a href="{{url_for('db_update', numb=manga.id)}}" onclick="javscript:loading()" title="Scarica nuovi capitoli">Update</a></div>
+						<div class="element_ligth"><a href="{{url_for('db_refresh', numb=manga.id, cap=0)}}" onclick="javscript:loading()" title="Aggiorna intera lista capitoli">Refresh</a></div>
+						{%endif%}
+					</div>
+				</div>
+				{%endfor%}
+			</div>
+		</div>
+	</center>
+	
+	<script>
+	function loading(){
+		$("#over_layer").css("display", "flex");
+	}
+	</script>
+{%endblock%}

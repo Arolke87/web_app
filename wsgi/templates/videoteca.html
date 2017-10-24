@@ -1,0 +1,47 @@
+{% extends 'master_manga.html' %}
+
+{% block title %}
+Videoteca
+{% endblock %}
+{% block page_content %}
+	<center>
+		<div class="main_cont">
+			<div>
+				 {%if films %}
+				<table>
+				<tr>
+				<td>Titolo</td>
+				<td>Anno</td>
+				<td>Regia</td>
+				<td>Durata</td>
+				<td>Audio</td>
+				<td>Sub</td>
+				</tr>
+				{%for film in films %}
+				<tr>
+				<td>{{film.titolo}}</td>
+				<td><center> {{film.anno_a if film.anno_a}}{{" - " + film.anno_b if film.anno_b}} </center></td>
+				<td>
+					{%for autore in film.regia%}
+					{{autore.nome}}{{ ";" if not loop.last }}
+					{%endfor%}
+				</td>
+				<td><center>{{film.durata}}'</center></td>
+				<td><center>
+					{%for audio in film.audio%}
+					{{audio.nome}}{{ " /" if not loop.last }}
+					{%endfor%}
+				</center></td>
+				<td><center>
+					{%for audio in film.sub%}
+					{{audio.nome}}{{ " /" if not loop.last }}
+					{%endfor%}
+				</center></td>
+				</tr>
+				{%endfor%}
+				</table>
+				{%endif%}
+			</div>
+		</div>
+	</center>
+{%endblock%}

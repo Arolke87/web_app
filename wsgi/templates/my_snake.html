@@ -1,0 +1,191 @@
+{% extends 'master_manga.html' %}
+
+{% block title %}
+Snake game
+{% endblock %}
+{% block page_content %}
+<div style="background: #000; color: #fff; width:700px; margin:auto">
+	<div style="display:flex; margin:auto;">
+		<div id="lvl_counter" style="text-align:left; font-size:2em; border-bottom: 1px solid grey; padding:20px; width:140px; font-weight:bold;">LVL 1</div>
+		<div id="point_counter" style="text-align:right; font-size:2em; border-bottom: 1px solid grey; padding:30px; width:440px; font-weight:bold;">0</div>
+	</div>
+	<canvas id="my_cv" width="700" height="700"></canvas>
+	<div id="bottom_messange" style="width:700px; height:100px; margin:auto; border-top:1px solid gray"></div>
+</div>
+<script>
+xp=yp=10;
+gs = 15;//20;
+tc = 47;//35;
+pause = false;
+xf=yf=20;
+
+pints = 0;
+lvl = 1;
+
+tail = [];
+tail_append(3);
+
+moves = [ {x:0, y:0} ]
+
+background_colors = [
+	'rgb(20,0,10)',
+	'rgb(0,0,0)',
+	'rgb(30,0,0)',
+	'rgb(20,10,0)',
+	'rgb(10,10,0)',
+	'rgb(10,20,0)',
+	'rgb(0,30,0)',
+	'rgb(0,20,10)',
+	'rgb(0,10,10)',
+	'rgb(0,0,30)',
+]
+
+background_color = 'rgb(0,0,0)';
+
+window.onload = function(){
+	canv = document.getElementById("my_cv");
+	ctx = canv.getContext("2d");
+	
+	document.addEventListener("keydown", change_direction);
+	move();
+}
+
+function move(){
+
+	if(pause==false){
+
+		if(moves.length>1)	moves.splice(0,1);
+
+		xp += moves[0].x;
+		yp += moves[0].y;
+		
+		
+		if(xp<0 || yp<0 || xp>=tc || yp>=tc){
+			//GAME OVER
+			reset_game();
+			return;
+		}
+		if(moves[0].x!=0 || moves[0].y!=0){
+			for( n=tail.length-1; n>0; n--){
+				if(tail[n].x == xp && tail[n].y == yp){
+					reset_game();
+					return;
+				}
+			}
+		}
+
+		
+		if (xf==xp && yf==yp){
+			// ho raccolto un frutto...
+			tail_append(2);
+			xf = Math.floor(Math.random() * (tc-2))+1;
+			yf = Math.floor(Math.random() * (tc-2))+1;
+			
+			pints += 50*Math.floor(lvl);
+			lvl += 0.25;
+			document.getElementById("point_counter").innerHTML = pints.toString();
+			document.getElementById("lvl_counter").innerHTML = "LVL "+ Math.floor(lvl).toString();
+			
+			while (xf==xp && yf==yp){
+				xf = Math.floor(Math.random() * (tc-2))+1;
+				yf = Math.floor(Math.random() * (tc-2))+1;
+			}
+			
+		}
+		
+		ctx.fillStyle = background_color;//Math.floor(lvl*4)%10];
+		ctx.fillRect(0,0, tc*gs, tc*gs);
+
+		for( n=tail.length-1; n>0; n--){
+			ctx.fillStyle = "green";
+			ctx.fillRect(tail[n].x*gs, tail[n].y*gs, gs-2, gs-2);
+			
+			tail[n].x = tail[n-1].x;
+			tail[n].y = tail[n-1].y;
+		}
+		ctx.fillStyle = "green";
+		ctx.fillRect(tail[0].x*gs, tail[0].y*gs, gs-2, gs-2);
+		tail[0].x = xp;
+		tail[0].y = yp;
+		
+		ctx.fillStyle = "blue";
+		ctx.fillRect(xp*gs, yp*gs, gs-2, gs-2);
+		
+		
+		ctx.fillStyle = "red";
+		ctx.fillRect(xf*gs, yf*gs, gs-2, gs-2);
+
+		window.setTimeout(move, 1000/(15+Math.floor(lvl-1)*1));
+	}
+	
+}
+function change_direction(evt){
+	if(!pause){
+		switch(evt.key){
+			case "ArrowUp":
+			case "w":
+				if ( moves[moves.length-1].y==0 ) moves.push( { y:-1, x: 0} );
+				break;
+			case "ArrowDown":
+			case "s":
+				if ( moves[moves.length-1].y==0 ) moves.push( { y: 1, x: 0} );
+				break;
+			case "ArrowLeft":
+			case "a":
+				if ( moves[moves.length-1].x==0 ) moves.push( { y: 0, x:-1} );
+				break;
+			case "ArrowRight":
+			case "d":
+				if ( moves[moves.length-1].x==0 ) moves.push( { y: 0, x: 1} );
+				break;
+			case " ":
+			case "Enter":
+				pause = true;
+				document.getElementById("bottom_messange").innerHTML  = '<h2>PAUSA<br />Premi Spazio per riprendere</h2>';
+				break;
+		}
+	}else{
+		switch(evt.key){
+			case " ":
+			case "Enter":
+				if(pause){
+					pause = false;
+					document.getElementById("point_counter").innerHTML = pints.toString();
+					document.getElementById("lvl_counter").innerHTML = "LVL "+ Math.floor(lvl).toString();
+					document.getElementById("bottom_messange").innerHTML  = '';
+					move()
+				}
+				break;
+		}
+	}
+}
+
+
+function reset_game(){
+	//GAME OVER
+	moves = [ {x:0, y:0} ];
+	xp=yp=10;
+	tail = [];
+	tail_append(3);
+	pause = true;
+	pints = 0;
+	lvl = 1;
+	document.getElementById("bottom_messange").innerHTML = "<h2>GAME OVER<br />Premi Spazio per una nuova partita</h2>";
+}
+
+function tail_append(n){
+	for (t=0; n>t;t++){
+		if(tail.length>0){
+			tail.push( {x:tail[tail.length-1].x, y:tail[tail.length-1].y} );
+		}
+		else{
+			var tmp = {x: xp, y: yp};
+			tail.push(tmp);
+		}
+	}
+
+}
+
+</script>
+
+{%endblock%}

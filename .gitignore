@@ -1,0 +1,10 @@
+.project
+*.pyc
+*.pyo
+*~
+target
+.settings/*
+!.settings/.jsdtscope
+.classpath
+/wsgi/static/manga_link/*
+*.txt

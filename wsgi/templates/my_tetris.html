@@ -1,0 +1,338 @@
+{% extends 'master_manga.html' %}
+
+{% block title %}
+Tetris game
+{% endblock %}
+{% block page_content %}
+<div style="background: #000; color: #fff; width:700px; margin:auto">
+	<div style="display:flex; margin:auto;">
+		<canvas id="my_cv" width="500" height="750"></canvas>
+		<div>
+			<div id="lvl_counter" style="text-align:left; font-size:2em; border-bottom: 1px solid grey; padding:30px; font-weight:bold;">LVL 1</div>
+			<div id="lines_counter" style="text-align:left; font-size:2em; border-bottom: 1px solid grey; padding:30px; font-weight:bold;">0</div>		
+			<div id="point_counter" style="text-align:left; font-size:2em; border-bottom: 1px solid grey; padding:30px; font-weight:bold;">0</div>		
+		</div>
+	</div>
+	<!--<div id="bottom_messange" style="width:700px; height:100px; margin:auto; border-top:1px solid gray"></div>-->
+</div>
+
+<script>
+gs = 30;
+nr = 25;
+nc = 10;
+
+strt_offset = [13, 3];
+
+pause = true;
+fall_and = false;
+pints = 0;
+lvl = 1;
+lines = 0;
+
+colors = [
+	"Black",
+	"Red",
+	"Blue",
+	"Green",
+	"Lime",
+	"Purple",
+	"OrangeRed",
+	"Gray",
+	"DeepPink",
+	"Gold",
+	"LightSeaGreen",
+	"FireBrick"
+];
+
+command = [];
+var matrix = [];
+for(i=0; i<nr;i++){
+	tmp= new Array(nc).fill(0);
+	matrix.push(tmp);
+}
+
+var fall_object = [
+	[[0,-1],[0,0],[-1,0],[-1,-1]],	//O
+	[[-1,0],[0,0],[1,0],[2,0]],		//I
+	[[-1,0],[0,0],[1,0],[0,-1]],	//T
+	[[-1,0],[0,0],[0,-1],[-1,1]],	//S
+	[[ 1,0],[0,0],[0,-1],[-1,-1]],	//Z
+	[[-1,0],[0,0],[1,0],[1,1]],		//L
+	[[-1,0],[0,0],[1,0],[-1,1]]		//J
+]
+
+next_obj = {obj:[], color:"", position:[]};
+
+window.onload = function(){
+	canv = document.getElementById("my_cv");
+	ctx = canv.getContext("2d");
+	
+	//grd = ctx.createRadialGradient(0,0,0,0,0,gs);
+	//grd.addColorStop(1,"red");
+	//grd.addColorStop(0,"black");
+    //
+	//colors.push( grd );
+    //
+	//grd = ctx.createRadialGradient(0,0,0,0,0,gs);
+	//grd.addColorStop(1,"blue");
+	//grd.addColorStop(0,"black");
+    //
+	//colors.push( grd );
+	
+	ctx.fillStyle = "Gray";
+	ctx.fillRect(0,0, nc*gs, nr*gs);
+	
+	ctx.fillStyle = colors[0];
+	ctx.fillRect(0,0, nc*gs-2, nr*gs-2);
+	
+	ctx.fillStyle = "Gray";
+	ctx.fillRect((strt_offset[0]-1)*gs-1,(strt_offset[1]-2)*gs-1, gs*4, gs*4);
+	
+	actual_obj = new_block();
+	actual_obj = new_block();
+	document.addEventListener("keydown", key_listen);
+}
+
+function game(){
+
+	if(!pause){
+		var count = 0;
+		while(command.length>0 && count<20){
+			switch(command[0]){
+				case "ArrowUp":
+				case "w":
+					actual_obj.obj = rotate_this(actual_obj.obj, true);
+					break;
+				case "ArrowDown":
+				case "s":
+					if (check_valid_move(actual_obj.obj, 0, 1)) actual_obj.position[1]++;
+					if (check_valid_move(actual_obj.obj, 0, 1)) actual_obj.position[1]++;
+					if (check_valid_move(actual_obj.obj, 0, 1)) actual_obj.position[1]++;
+					if (check_valid_move(actual_obj.obj, 0, 1)) actual_obj.position[1]++;
+					if (check_valid_move(actual_obj.obj, 0, 1)) actual_obj.position[1]++;
+					break;
+				case "ArrowLeft":
+				case "a":
+					if (check_valid_move(actual_obj.obj, -1, 0)) actual_obj.position[0]--;
+					break;
+				case "ArrowRight":
+				case "d":
+					if (check_valid_move(actual_obj.obj, 1, 0)) actual_obj.position[0]++;
+					break;
+			}
+			count++;
+			command.splice(0,1);
+		}
+	
+		for (i=0; i<actual_obj.obj.length; i++){
+			x = (actual_obj.obj[i][0]+actual_obj.position[0])
+			y = (actual_obj.obj[i][1]+actual_obj.position[1])
+			
+
+			if(adiacenza(x,y)){
+				fall_and = true;
+			}
+		}
+	
+		if(fall_and){
+			for (i=0; i<actual_obj.obj.length; i++){
+				x = (actual_obj.obj[i][0]+actual_obj.position[0])
+				y = (actual_obj.obj[i][1]+actual_obj.position[1])
+				if(x>=0 && y>=0) matrix[y][x] = actual_obj.color;
+			}
+			//metto il blocco nel canavas.
+			actual_obj = new_block();	//Creo nuovo blocco
+			fall_and = false;
+			for (i=0; i<actual_obj.obj.length; i++){
+				x = (actual_obj.obj[i][0]+actual_obj.position[0])
+				y = (actual_obj.obj[i][1]+actual_obj.position[1]) 
+				if (y>=0 && x>=0 && matrix[y][x]!=0){
+					game_over();
+					return;
+				}
+			}
+			
+			old_lines = lines;
+			//Controllo se ho una riga piena
+			for (i=0; i<nr; i++){
+				cont = true;
+				for (j=0; j<nc;j++){
+					if (matrix[i][j]==0){
+						cont = false;
+						break;
+					}
+				}
+				if(cont){
+				//rimuovo la riga
+					matrix.splice(i,1);
+					tmp= new Array(nc).fill(0);
+					matrix.splice(0,0,tmp);
+					lines++;
+					
+					
+					document.getElementById("lvl_counter").innerHTML = "LVL: "+ lvl.toString();
+				}
+			}
+			switch(lines-old_lines){
+				case 1:
+					pints += 40*lvl;
+					break;
+				case 2:
+					pints += 100*lvl;
+					break;
+				case 3:
+					pints += 300*lvl;
+					break;
+				case 4:
+					pints += 1200*lvl;
+					break;
+			}
+			lvl = Math.floor(lines/10)+1;
+			document.getElementById("point_counter").innerHTML = "Score: " + pints.toString();
+			document.getElementById("lines_counter").innerHTML = "Lines: " + lines.toString();
+		}
+		
+		ctx.fillStyle = colors[0];
+		ctx.fillRect(0,0, nc*gs-2, nr*gs-2);
+			
+		actual_obj.position[1]++;
+
+		for (i=0; i<nr; i++){
+			for (j=0; j<nc;j++){
+				if (matrix[i][j]!=0){
+					ctx.fillStyle = matrix[i][j];
+					ctx.fillRect(j*gs,i*gs, gs-2, gs-2);
+				}
+			}
+		}
+		
+		for (i=0; i<actual_obj.obj.length; i++){
+			x = (actual_obj.obj[i][0]+actual_obj.position[0])
+			y = (actual_obj.obj[i][1]+actual_obj.position[1])
+			
+			ctx.fillStyle = actual_obj.color;
+			ctx.fillRect(x*gs,y*gs, gs-2, gs-2);
+		}
+
+		window.setTimeout(game, 1000/(4+lvl));
+	}
+
+}
+
+function key_listen(evt){
+	switch(evt.key){
+		case " ":
+		case "Enter":
+			if(pause){
+				pause = false;
+				actual_obj = new_block();
+				
+				document.getElementById("point_counter").innerHTML = pints.toString();
+				document.getElementById("lvl_counter").innerHTML = "LVL "+ lvl.toString();
+				//document.getElementById("bottom_messange").innerHTML  = '';
+				command = [];
+				game()
+			}
+		default:
+			if (command.length<10)
+				command.push(evt.key);
+	}
+}
+
+function new_block(){
+	tmp_obj = [];
+	act_obj = next_obj;
+	
+	act_obj.position = [Math.floor(nc/2)-1, -1];
+	
+	ref_obj = fall_object[Math.floor(Math.random()*fall_object.length)];
+	
+	for (i=0; i<ref_obj.length; i++)
+		tmp_obj.push([ ref_obj[i][0], ref_obj[i][1] ]);
+	
+	for(i=0; i<Math.floor(Math.random()*4);i++)
+		tmp_obj = rotate_this(tmp_obj, false);
+	
+	next_obj = { obj: tmp_obj, color: colors[Math.floor(Math.random()*(colors.length-1))+1], position: strt_offset }
+	stampa(next_obj);
+
+	return act_obj;
+}
+
+function adiacenza(x,y){
+	if (x<0 || y<0) return false;
+	if(y>=nr-1 || matrix[y+1][x]!=0) return true;
+	//if(x>0 && matrix[y+1][x-1]!=0) return true;
+	//if(x<nc-1 && matrix[y+1][x+1]!=0) return true;
+	
+	return false;
+}
+
+function game_over(){
+	matrix = [];
+	for(i=0; i<nr;i++){
+		tmp= new Array(nc).fill(0);
+		matrix.push(tmp);
+	}
+	pause = true;
+	fall_and = false;
+	pints = 0;
+	lvl = 1;
+	lines = 0;
+}
+
+function check_valid_move(obj, nx, ny){
+	for (i=0; i<obj.length; i++){
+		x = (obj[i][0]+actual_obj.position[0])
+		y = (obj[i][1]+actual_obj.position[1])
+		
+		if(typeof nx === 'undefined' || typeof ny === 'undefined')
+			return false;
+		
+		if(x+nx<0 || x+nx>nc-1 || y+ny>nr-1)
+			return false;
+		if(y+ny>=0)
+			if(matrix[y+ny][x+nx]!=0)
+				return false;
+	}
+	return true;
+}
+
+//function rotate(){
+//	tmp_obj =[]
+//	for (i=0; i<actual_obj.obj.length; i++)
+//		tmp_obj.push([ actual_obj.obj[i][1], -actual_obj.obj[i][0]-1 ]);
+//	
+//	if(!safe || check_valid_move(tmp_obj, 0, 0)){
+//		actual_obj.obj = tmp_obj;
+//	}
+//}
+
+function rotate_this(obj, safe){
+	tmp_obj =[]
+	for (i=0; i<obj.length; i++)
+		tmp_obj.push([ obj[i][1], -obj[i][0] ]);
+	
+	if(!safe || check_valid_move(tmp_obj, 0, 0)){
+		return tmp_obj;
+	}
+	return obj;
+}
+
+function stampa(oggetto){
+	
+	ctx.fillStyle = "Black";
+	ctx.fillRect((strt_offset[0]-1)*gs,(strt_offset[1]-2)*gs, gs*4-2, gs*4-2);
+
+	for (i=0; i<oggetto.obj.length; i++){
+		x = (oggetto.obj[i][0]+oggetto.position[0])
+		y = (oggetto.obj[i][1]+oggetto.position[1])
+		
+		ctx.fillStyle = oggetto.color;
+		ctx.fillRect(x*gs,y*gs, gs-2, gs-2);
+	}
+}
+
+</script>
+
+{%endblock%}

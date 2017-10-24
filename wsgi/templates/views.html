@@ -1,0 +1,40 @@
+{% extends 'master_manga.html' %}
+
+{% block title %}
+{%if cap_name%}{{manga_name}} - {{cap_name}}{%else%}Scan Views{%endif%}
+{% endblock %}
+{% block page_content %}
+	<center>
+		<div style="font-size:2em">
+			<h2>{%if cap_name%}{{manga_name}} - {{cap_name}}{%endif%}</h2>
+			<form method=post action="{{ request.path }}" id="j_user_authentications data" enctype="multipart/form-data">
+			<select name="cartella">
+				<option value=""></option>
+				{%for dir in main_dir_list %}
+				<option value="{{dir}}">{{dir}}</option>
+				{%endfor%}
+			</select>
+			<button type="submit" name="Invia" value="Credenziali" class="button1">Vai</button>
+			</form>
+		</div>
+		<div class="row" style="font-size:2em">
+			<div class="element_ligth">
+				<a class="button_link" href="{{precedente}}">Indietro</a>
+			</div>
+			<div class="element_ligth">
+				<a class="button_link" href="{{successivo}}">Avanti</a>
+			</div>
+		</div>
+		{%for img in img_list%}
+		<div style="margin-bottom: -4px"><img src="{{img}}" style="width:100%; height:auto; margin:0" /></div>
+		{%endfor%}
+		<div class="row" style="font-size:2em">
+			<div class="element_ligth">
+				<a class="button_link" href="{{precedente}}">Indietro</a>
+			</div>
+			<div class="element_ligth">
+				<a class="button_link" href="{{successivo}}">Avanti</a>
+			</div>
+		</div>
+	</center>
+{%endblock%}

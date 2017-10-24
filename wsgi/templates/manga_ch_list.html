@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<style media="screen, print" type="text/css">
+			.button_link{
+				display: inline-block;
+				padding: 5px 14px;
+				background-color: #ddd;
+				border: 1px solid #ddd;
+				border-radius: 15px;
+				margin: 15px;
+				
+			}
+		</style>
+	</head>
+	<body style="margin: 8px 0;">
+		<center>
+		<div>
+			<form method=post action="{{ request.path }}" id="j_user_authentications data" enctype="multipart/form-data">
+			<input name="url" type="text" />
+			<button type="submit" name="Invia" value="Credenziali" class="button1">Controlla</button>
+			</form>
+		</div>
+		{%for link in link_list%}
+			<p>{{link}}</p>
+		{%endfor%}
+		</center>
+	</body>
+</html>

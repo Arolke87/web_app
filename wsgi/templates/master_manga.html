@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+		{% block additional_head %}{% endblock %}
+	</head>
+	<body>
+		<!-- HEADER -->
+		<div id="header">
+			<div id="subheader">
+				<div id="nav_menu">
+					<ul>
+						<li><a href="{{url_for('manga_main')}}">Manga</a></li>
+						<li><a>Games</a>
+							<ul>
+							<li><a href="{{url_for('tetris')}}">Tetris</a></li>
+							<li><a href="{{url_for('snake')}}">Snake</a></li>						
+							</ul>
+						</li>
+						<li><a href="{{url_for('videoteca')}}">Videoteca</a></li>
+						<li>
+							 {%if not current_user.is_authenticated %}
+							<form form id="login_form" action="{{ url_for('login') }}" method="POST" name="login_user_form">
+								<input class="login_filed" type="text" name="usr" placeholder="username"/>
+								<input class="login_filed" type="password" name="psw" placeholder="password"/>
+								<input class="login_btn btn" id="submit" name="submit" type="submit" value="Accedi">
+							</form>
+							{%else%}
+							<a href="{{url_for('logout')}}">Logout</a>
+							{%endif%}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- BODY -->
+		<div id="over_layer">
+			<div style="width: 100%"></div>
+			<center><img src="/img/loading_colored.gif"></center>
+		</div>
+		<div id="body_cont_fix">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="container">
+					<div id="flashContainer">
+						<div class=flashes>
+							{% for message in messages %}
+								<span>{{ message }}</span><br>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endwith %}
+		{% block page_content %}{% endblock %}
+		</div>
+		
+		<script type="text/javascript">
+			function loading(){
+				$("#over_layer").css("display", "flex");
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,486 @@
+/*ARCHEOSWEB CSS*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body
+{
+	margin: 0px;
+}
+
+#top
+{
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	position: relative;
+	min-height: inherit;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	pointer-events: none;
+	background-color: rgb(0, 68, 103);
+}
+#topcontainer
+{
+	padding-top: 5px;
+	background-color: rgb(0, 68, 103);
+	height: 80px;
+}
+#topleft
+{
+	display: table;
+	float: left;
+	min-height: inherit;
+}
+#logotop
+{
+	width: 50px;
+	height: 50px;
+	border-style: solid;
+	background-image: url(https://lh3.googleusercontent.com/KFoCM5rFmlD2FiO3pb-aJlyCGWNtp0xqwSUlzlt7mHinOKk4XqlTdRIlbEiJMCDZ0Ze3r99mkC2Hhuk2wg);
+	background-size: contain;
+	border-width: 0px;
+	background-repeat: space;
+	border-color: #000000;
+	margin-left: 50px;
+	margin-top:15px;
+	background-color: transparent;
+	float: right;
+}
+#testo1
+{
+	display: table;
+	color: rgb(128, 208, 241);
+	float: right;
+	min-height: inherit;
+	margin-top: 30px;
+	margin-left: 15px;
+	font-size: 30px;
+}                                    
+
+#topright
+{
+	width: 300px;
+	display: table;
+	float: right;
+	min-height: inherit;
+} 
+.mu
+{
+	height: 70px;
+	width: 33%;
+	display: table;
+	min-height: inherit;
+	font-family: Raleway;
+	padding-top: 35px;
+	float: left;
+	letter-spacing: 0.05em;
+}
+.mu a
+{ 
+	color: rgb(128, 208, 241);
+	text-decoration: blink;
+}
+
+#name
+{
+	width: 100%;
+	left: 0px;
+	position: relative;
+	height: 400px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	pointer-events: none;
+	background-color: rgb(0, 68, 103);
+}
+
+
+#articoli
+{
+	padding-left: 6%;
+	padding-right: 6%;
+	padding-top: 50px;
+	padding-bottom: 20px;
+	width: 88%;        
+	left: 0px;
+	position: relative;
+	background-color: rgb(128, 208, 241);
+	overflow: hidden;
+}
+.blox
+{
+	float: left;
+	width: 48%;
+	margin: 16px 8px 8px 0px;
+}
+.bloxfoto
+{
+	width: 88%;
+	margin: 0 auto;
+	min-height: 300px;
+	background-image: url(http://www.lucaraldiri.it/wp-content/uploads/2015/01/blog-1.jpg);
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.bloxtitolo{width: 88%; margin: 0 auto; padding-top: 10px; padding-bottom: 10px; font-family: sans-serif;}
+.bloxdata{width: 88%; margin: 0 auto; padding-bottom: 3px;font-size: smaller;}
+.bloxtesto{width: 88%; margin: 0 auto;padding-bottom: 10px;}
+.bloxbottone{width: 200px; height: 20px; float: right;}
+#box
+{
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	position: relative;
+	min-height: inherit;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	pointer-events: none;
+	background-color: rgb(255, 255, 240);
+	overflow: hidden;
+}
+.blox2
+{
+	float: left;
+	width: 50%;
+	height: 40vw;
+	margin: 0px 0px 0px 0px;
+	text-align:center;
+	background-repeat: no-repeat;
+	background-position: center;
+} 
+.blox2 h2  { padding-top: 50px; padding-bottom: 50px; color: Black;}
+.blox3 
+{
+	width: 88%;
+	margin: 0px 0px 0px 0px;
+	text-align: justify;
+	padding-left:30px;
+}                           
+#cv
+{
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	position: relative;
+	min-height: inherit;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	pointer-events: none;
+	background-color: rgb(239, 239, 239);
+	overflow: hidden;
+}
+#titlecv
+{
+	float: left;
+	width: 100%;
+	height: 200px;
+	margin: 0px 0px 0px 0px;
+	text-align:center;
+}
+#titlecv h1  {color: rgb(128, 208, 241);}                      
+#containercv
+{
+	float: left;
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+}
+
+.cvv  {
+        float: left;
+        width: 33%;
+        height: 40vw;
+        margin: 0px 0px 0px 0px;
+        text-align:center;
+        }
+.avatar{
+
+        position: relative;
+        top: 30px;
+        left: 30%;
+        width: 100px;
+        height: 100px;
+        margin: 0px 0px 0px 0px;
+       -webkit-border-radius: 50px;
+        background-image: url(https://lh3.googleusercontent.com/KFoCM5rFmlD2FiO3pb-aJlyCGWNtp0xqwSUlzlt7mHinOKk4XqlTdRIlbEiJMCDZ0Ze3r99mkC2Hhuk2wg);
+        background-size: contain;
+        background-repeat: space;
+        }
+.teamcv {
+        width: 70%;
+        margin-top: 14%;
+        text-align: left;
+        float: right;
+        }
+
+        .teamcv p   {
+                    display: inline-block;
+                    text-align: inherit;
+                    max-width: inherit;
+                    }                                
+#social {
+        height: 400px;
+        width: 100%;
+        left: 0px;
+        position: relative;
+        min-height: inherit;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        pointer-events: none;
+        background-color: rgb(255, 255, 240);
+        overflow: hidden;
+        }
+        #subsocial  
+        {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -100px;    
+        }
+        #logosocial{
+                    width: 50px;
+                    height: 50px;
+                    border-style: solid;
+                    background-image: url(https://lh3.googleusercontent.com/KFoCM5rFmlD2FiO3pb-aJlyCGWNtp0xqwSUlzlt7mHinOKk4XqlTdRIlbEiJMCDZ0Ze3r99mkC2Hhuk2wg);
+                    background-size: contain;
+                    border-width: 0px;
+                    background-repeat: space;
+                    border-color: #000000;
+                    margin-left: auto;
+                    margin-right: auto;
+                   }
+        #socialtesto    {
+                    width: 100%;
+                    height: 50px;
+                    padding-top:20px;
+                    border-style: solid;
+                    border-color: #000000;
+                    text-align: center;
+                    }
+         #socialicone   {
+                    width: 100%;
+                    height: 50px;
+                    border-color: red;
+                    margin-left: auto;
+                    margin-right: auto;
+                   }  
+#bottom {
+        height: 100%;
+        width: 100%;
+        left: 0px;
+        position: relative;
+        min-height: inherit;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        pointer-events: none;
+        background-color: rgb(255, 255, 240);
+        overflow: hidden;
+        }
+H1      {
+        margin: 0 0 0 0;
+        font-size: 52px;
+        text-align: center;
+        color: White;
+        padding-top: 100px;
+        font-style: normal;
+        font-family: serif;
+        }
+H2      {
+        margin: 0 0 0 0;
+        font-size: 42px;
+        text-align: center;
+        color: rgb(128, 208, 241);
+        font-style: normal;
+        font-family: serif;
+        }
+/*H3      {
+        margin: 0 0 0 0;
+        text-align: left;
+        font-style: normal;
+        font-family: serif;
+        font-size: 14px;
+        min-height: 14px; 
+        text-transform: uppercase;
+        color: rgb(0, 0, 0);
+        letter-spacing: -0.05em;
+        margin-top: 15px;
+        margin-bottom: 0px;
+        }*/
+H4      {
+        display: inline-block;
+        text-align: inherit;
+        max-width: inherit;
+        font-size: 12px;
+        text-align: left;
+        color: purple;
+        font-style: normal;
+        font-family: serif;
+        margin-top: 0px;
+        margin-bottom: 15px;
+        letter-spacing: -0.05em;
+        }
+        
+      
+.row{
+	margin: 0px auto;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+.element{
+	margin: 10px;
+    padding: 20px;
+    border: solid 1px #bdbcbc;
+	border-radius: 5px;
+}
+
+.element_ligth{
+	padding: 10px;
+	margin: 0;
+	text-align: left;
+}
+
+.element h3 {
+    text-transform: none;
+    color: #1f1f38;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+}
+        
+div#over_layer{
+    background: rgba(85, 85, 85, 0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    justify-content: center;
+    display: none;
+    align-content: center;
+    flex-wrap: wrap;
+}
+div#over_layer img{
+	max-width:100px;
+	max-height: 100px;
+}
+
+ul {
+    list-style-position: outside;
+    margin-left: 1.5em;
+}
+
+div#header{
+	width: 100%;
+	background: linear-gradient(#1f76c5, #09345a);
+	height: 40px;
+	border-bottom: solid 1px black;
+}
+
+div#subheader{
+	background: url('img/Logo-Aweb_white.png') no-repeat left center;
+	background-size: auto 80%;
+	margin:auto;
+	width: 75%;
+	height: 100%;
+	min-width: 400px;
+	display:flex;
+	flex-flow: row-reverse nowrap;
+}
+
+/***** menu style *****/
+
+#nav_menu ul{
+	display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content:flex-end;
+	list-style-type: none;
+}
+
+#nav_menu ul li{
+	display: block;
+	text-align: center;
+}
+
+#nav_menu ul li a{
+	display: block;
+	padding: 10px;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+#nav_menu ul li:hover > a{
+	color: white;
+	background: linear-gradient(#09345a, #1f76c5);
+}
+
+#nav_menu li ul{
+	list-style-type: none;
+	position:absolute;
+	display: none;
+	z-index: 1000;
+	background: #444;
+	top:38px;
+	margin: 0;
+}
+#nav_menu li:hover ul {display:block;}
+
+#nav_menu li ul li {
+	border-bottom: 1px solid gray;
+	background: #1f76c5;
+	color: black;
+}
+
+#nav_menu input[type="text"], input[type="password"] {
+    border: 2px solid white;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.1), 0 0 16px rgba(0,0,0,0.1);
+    padding: 6px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 3px 0;
+	width: 70px;
+}
+
+#flashContainer{
+    margin: 15px 10%;
+    border: 2px solid #333375;
+    background: rgba(158, 158, 158, 0.28);
+    box-shadow: 5px 5px 10px 0px rgba(64, 64, 64, 0.09);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1.5em;
+    font-style: italic;
+    text-align: center;
+}
